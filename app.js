@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
     })
 });
 
-app.post('/new/:original_url', (req, res) => {
+app.get('/new/:original_url(*)', (req, res) => {
     let original_url = req.params.original_url;
     res.status(200).send({original_url});
 });
