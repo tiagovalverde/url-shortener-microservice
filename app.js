@@ -1,10 +1,16 @@
+require('./config/config');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
 const hbs = require('hbs');
 
-const port = process.env.PORT || 3000;
+// local imports
+let {mongoose} = require('./db/mongoose');
+
+
+const port = process.env.PORT;
 
 const app = express();
 
