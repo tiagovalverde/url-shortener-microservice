@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 // switch callbacks by promises
-mongoose.Promise = global.Promise;
+mongoose.Promise = Promise;  
+
 
 mongoose.connect(process.env.MONGODB_URI);
 
