@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-let urlModel = mongoose.model('Url', {
+var UrlSchema = new mongoose.Schema({
     original_url: {
         type: String,
         required: true,
@@ -16,5 +16,10 @@ let urlModel = mongoose.model('Url', {
 });
 
 
+UrlSchema.methods.findLastId = function () {
+    var url = this;
+    return Url.findOne().sort('-short_url_id');
+};
+let Url = mongoose.model('Url',UrlSchema);
 
-module.exports = {urlModel};
+module.exports = {Url}; 

@@ -8,6 +8,7 @@ const hbs = require('hbs');
 
 // local imports
 let {mongoose} = require('./db/mongoose');
+let {Url} = require('./model/url');
 
 
 const port = process.env.PORT;
@@ -30,12 +31,35 @@ app.get('/', (req, res) => {
     })
 });
 
-app.get('/new/:original_url(*)', (req, res) => {
-    let original_url = req.params.original_url;
-    res.status(200).send({original_url});
+app.post('/api/shorturl/new/', (req, res) => {
+
+    let url = new Url({
+        original_url: req.body.url,
+    });
+
+    url.findLastId().then((resUrl) => {
+
+        res.status(200).send({
+            message: `previous id ${resUrl.short_url_id}`
+        })
+    }).catch((e) => {
+        res.status(400).send({
+            message: "Could not find prev url"
+        })
+    });
+
+
+    url.save(url).then((doc) => {
+        res.status(200).send(doc);
+    }, (e) => { 
+        res.status(400).send(e);
+    });
 });
 
-app.get('/:id', (req, res) => {
+app.get('api/shorturl/:id', (req, res) => {
+    // checks if id is number
+    // fetch by ud
+    // redirect to original url
     let url_id = req.params.id;
     res.status(200).send({url_id});
 });
