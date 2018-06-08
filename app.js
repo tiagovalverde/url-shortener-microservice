@@ -10,6 +10,8 @@ const hbs = require('hbs');
 let {mongoose} = require('./db/mongoose');
 let {Url} = require('./model/url');
 let {generateShortUrl} = require('./utils/utils');
+let {isValidUrl} = require('./middlewares/middlewares.js');
+
 
 const port = process.env.PORT;
 const app = express();
@@ -30,7 +32,7 @@ app.get('/', (req, res) => {
     })
 });
 
-app.post('/api/shorturl/new/', (req, res) => {
+app.post('/api/shorturl/new/', isValidUrl, (req, res) => {
 
     let url = new Url({
         original_url: req.body.url,
