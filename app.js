@@ -9,10 +9,9 @@ const hbs = require('hbs');
 // local imports
 let {mongoose} = require('./db/mongoose');
 let {Url} = require('./model/url');
-
+let {generateShortUrl} = require('./utils/utils');
 
 const port = process.env.PORT;
-
 const app = express();
 
 app.use(bodyParser.json());
@@ -35,24 +34,43 @@ app.post('/api/shorturl/new/', (req, res) => {
 
     let url = new Url({
         original_url: req.body.url,
+        short_url_id: -1
     });
-
+ 
     url.findLastId().then((resUrl) => {
+            url.short_url_id = resUrl.short_url_id + 1;
 
-        res.status(200).send({
-            message: `previous id ${resUrl.short_url_id}`
-        })
+            url.save().then((doc) => {
+                res.status(200).send({
+                    original_url: doc.original_url,
+                    short_url: generateShortUrl(
+                        req.protocol, 
+                        req.get('host'),
+                        doc.short_url_id
+                    )
+                });
+            }, (e) => { 
+                res.status(400).send(e);
+            });
+
     }).catch((e) => {
-        res.status(400).send({
-            message: "Could not find prev url"
-        })
-    });
+            url.short_url_id = 1;
 
-
-    url.save(url).then((doc) => {
-        res.status(200).send(doc);
-    }, (e) => { 
-        res.status(400).send(e);
+            url.save().then((doc) => {
+                res.status(200).send({
+                    original_url: doc.original_url,
+                    short_url: generateShortUrl(
+                            req.protocol, 
+                            req.get('host'),
+                            doc.short_url_id
+                        )
+                });
+            }, (e) => { 
+                res.status(400).send({
+                    success: false,
+                    message: 'Unable to shorten your URL'
+                });
+            });
     });
 });
 

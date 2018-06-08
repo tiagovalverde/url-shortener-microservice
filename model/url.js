@@ -9,7 +9,6 @@ var UrlSchema = new mongoose.Schema({
     },
     short_url_id: {
         type: Number,
-        default: 0,
         required: true,
         minLength: 1
     }
@@ -20,6 +19,7 @@ UrlSchema.methods.findLastId = function () {
     var url = this;
     return Url.findOne().sort('-short_url_id');
 };
+
 let Url = mongoose.model('Url',UrlSchema);
 
 module.exports = {Url}; 
