@@ -10,6 +10,21 @@ let isValidUrl = (req, res, next) => {
             error: 'Invalid URL'
         })
     }
-}
+};
 
-module.exports = {isValidUrl};
+let isValidId = (req, res, next) =>  {
+    let id = Number(req.params.id);
+    
+    if( (typeof id === 'number') && Number.isInteger(id)) {
+        next();
+    } else {
+        res.status(400).send({
+            error: 'Invalid short url'
+        });
+    }
+};
+
+module.exports = {
+    isValidUrl, 
+    isValidId
+};

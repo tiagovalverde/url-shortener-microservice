@@ -10,7 +10,7 @@ const hbs = require('hbs');
 let {mongoose} = require('./db/mongoose');
 let {Url} = require('./model/url');
 let {generateShortUrl} = require('./utils/utils');
-let {isValidUrl} = require('./middlewares/middlewares.js');
+let {isValidUrl, isValidId} = require('./middlewares/middlewares.js');
 
 
 const port = process.env.PORT;
@@ -76,12 +76,26 @@ app.post('/api/shorturl/new/', isValidUrl, (req, res) => {
     });
 });
 
-app.get('api/shorturl/:id', (req, res) => {
-    // checks if id is number
-    // fetch by ud
-    // redirect to original url
-    let url_id = req.params.id;
-    res.status(200).send({url_id});
+app.get('/api/shorturl/:id', isValidId,  (req, res) => {
+    
+    Url.findOne({
+        short_url_id: req.params.id
+    })
+    .then(doc => {
+        if(!doc) {
+            res.status(400).send({
+                success: false,
+                message: 'Short url not found!'
+            });
+        }
+        res.redirect(doc.original_url);
+    })
+    .catch((err) => {
+        res.status(400).send({
+            success: false,
+            message: 'Unable to obtain url!'
+        });
+    })
 });
 
 app.listen(port, () => {
