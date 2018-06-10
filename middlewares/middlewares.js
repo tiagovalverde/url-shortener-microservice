@@ -1,10 +1,24 @@
 const validator = require('validator');
+const dns = require('dns');
 
 let isValidUrl = (req, res, next) => {
     let url = req.body.url;
-    
+    //regex validation
     if(validator.isURL(url)) {
-        next();
+
+        let tempUrl = url.split('://')[1];
+        if(tempUrl){
+            url = tempUrl;
+        }
+        console.log(url);
+        dns.lookup(url, 4, (err, address, family) =>  {
+            if(err) {
+                res.status(400).send({
+                    error: 'Invalid URL'
+                });
+            }
+            next();
+        });
     }else {
         res.status(400).send({
             error: 'Invalid URL'
