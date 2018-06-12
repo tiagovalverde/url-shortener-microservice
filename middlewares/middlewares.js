@@ -10,7 +10,6 @@ let isValidUrl = (req, res, next) => {
         if(tempUrl){
             url = tempUrl;
         }
-        console.log(url);
         dns.lookup(url, 4, (err, address, family) =>  {
             if(err) {
                 res.status(400).send({
@@ -28,7 +27,6 @@ let isValidUrl = (req, res, next) => {
 
 let isValidId = (req, res, next) =>  {
     let id = Number(req.params.id);
-    
     if( (typeof id === 'number') && Number.isInteger(id)) {
         next();
     } else {

@@ -10,7 +10,6 @@ const hbs = require('hbs');
 let {mongoose} = require('./db/mongoose');
 let {Url} = require('./model/url');
 let {generateShortUrl} = require('./utils/utils');
-let {isValidUrl, isValidId} = require('./middlewares/middlewares.js');
 
 
 const port = process.env.PORT;
@@ -41,4 +40,6 @@ app.use('/api', shorturl);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
-})
+});
+
+module.exports = {app};

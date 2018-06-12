@@ -10,7 +10,7 @@ mongoose.connection.on('error', () => {
     console.log('Database connection failed');
 });
 mongoose.connection.once('open', () =>  {
-    console.log('Database connection successful');
+    // console.log('Database connection successful');
 });
 
 module.exports = {mongoose}; 
