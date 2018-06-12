@@ -18,14 +18,20 @@ const app = express();
 
 const shorturl = require('./routes/shorturl');
 
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
 
 app.use(bodyParser.json());
+hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 
 
 app.get('/', (req, res) => {
     res.render('index.hbs', {
-        pageTitle: 'API Project: URL Shortener Microservice'
+        pageTitle: 'API Project: URL Shortener Microservice',
+        pageURL: `${req.protocol}://${req.get('host')}`
     })
 });
 

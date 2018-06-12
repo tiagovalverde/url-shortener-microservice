@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{pageTitle}}</title>
+    {{> style}}
 </head>
 
 <body>
-    <h2>{{pageTitle}}</h2>
     <div class="container">
         <div class="section-user-stories">
-            <h4>User Stories</h4>
+            <h2>{{pageTitle}}</h2>
+            <h3>User Stories</h3>
             <ol>
                 <li>I can POST a URL to
                     <code>[project_url]/api/shorturl/new</code> and I will receive a shortened URL in the JSON response.
@@ -29,25 +30,26 @@
             </ol>
         </div>
         <div class="section-examples">
-            <h4>Create short URL</h4>
-            <p>example:
-                <code>POST [project_url]/api/shorturl/new -> https://www.google.com</code>
-            </p>
-            <form action="api/shorturl/new" method="POST">
-                <label for="url_input">URL to be shortened</label>
-                <input id="url_input" type="text" name="url" value="https://www.tiagovalverde.com">
-                <input type="submit" value="POST URL">
-            </form>
-            <h4>Example:</h4>
-            <a href="https://localhost:3000/api/shorturl/3">
-                [this_project_url]/api/shorturl/3
-            </a>
-            <h4>Will redirect to:</h4>
-            <p>https://forum.freecodecamp.com</p>
+            <h3>Create short URL</h4>
+                <p>example:
+                    <code>POST [project_url]/api/shorturl/new -> https://www.google.com</code>
+                </p>
+                <form action="api/shorturl/new" method="POST">
+                    <label for="url_input">URL to be shortened</label>
+                    <input id="url_input" type="text" name="url" value="https://www.tiagovalverde.com">
+                    <input type="submit" value="POST URL">
+                </form>
+                <h3>Example:</h3>
+
+                <a href="{{pageURL}}/api/shorturl/3">
+                    [this_project_url]/api/shorturl/3
+                </a>
+                <h3>Will redirect to:</h3>
+                <p>https://forum.freecodecamp.com</p>
         </div>
         <div class="footer">
             <p>By
-                <a href="https://www.tiagovalverde.com">Tiago Valverde</a>
+                <a href="https://www.tiagovalverde.com" target="_blank">Tiago Valverde</a>
             </p>
         </div>
     </div>
